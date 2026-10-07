@@ -13,7 +13,7 @@ import urllib.request
 
 API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost:8000").rstrip("/")
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@stockflow.local")
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "admin123456")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
 
 
 def http_request(method: str, path: str, data: dict = None, token: str = None) -> tuple[int, dict]:
@@ -40,6 +40,10 @@ def http_request(method: str, path: str, data: dict = None, token: str = None) -
 
 
 def main():
+    if not ADMIN_PASSWORD:
+        print("Error: La variable de entorno ADMIN_PASSWORD es obligatoria.", file=sys.stderr)
+        sys.exit(1)
+
     print(f"=== Sembrador de Demostración Simple Stock Flow ===")
     print(f"Conectando a la API en: {API_BASE_URL}")
 
